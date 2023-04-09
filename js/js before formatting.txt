@@ -1,0 +1,47 @@
+const textElement = document.querySelector('#text')
+const speedInput = document.querySelector('#speed')
+
+let text = `Digite algo no input`
+let idx = 1
+let speed = 300 / speedInput.value
+let isWriting = false // variável para verificar se a função writeText está em execução
+
+writeText()
+
+function writeText() {
+  if (!isWriting) { // verificar se a função writeText não está em execução
+    isWriting = true // definir a variável como true para indicar que a função está em execução
+    textElement.innerText = text.slice(0, idx)
+    idx++
+
+    if (idx > text.length) {
+      return
+    }
+
+    setTimeout(() => {
+      isWriting = false // definir a variável como false para indicar que a função terminou de executar
+      writeText()
+    }, speed)
+  }
+}
+
+speedInput.addEventListener(`input`, (e) => speed = 300 / e.target.value)
+
+const textInput = document.querySelector('#textInput')
+
+textInput.addEventListener('keypress', (e)=>{
+    if(e.keyCode === 13){
+        if(e.target.value){
+            text = e.target.value
+            idx = 1 // reiniciar o índice para começar a escrever o novo texto desde o início
+            isWriting = false
+            writeText()
+
+        }else{
+            text = `Digite algo no input`
+            idx = 1 // reiniciar o índice para começar a escrever o novo texto desde o início
+            isWriting = false
+            writeText()
+        }
+    }
+})
